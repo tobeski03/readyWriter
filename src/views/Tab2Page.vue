@@ -67,14 +67,20 @@ const src = `data:audio/webm;codecs=opus;base64,`;
 //   barColor: "lime",
 // });
 
-function isitrecording() {
+async function isitrecording() {
   playing.value = !playing.value;
+  const resp = await permission();
   if (playing.value) {
-    // requestpermission();
-    startrecord();
+    if (resp) {
+      // requestpermission();
+      startrecord();
+    } else {
+      requestpermission();
+      startrecord();
+    }
   } else {
     stoprecord();
-    // window.location.reload();
+    window.location.reload();
   }
 }
 const recordValidate = async () => {
